@@ -18,6 +18,16 @@ A lightweight AI chatbot project built with LangChain, Groq, Google Gemini, Chro
 - `src/branches.py` - experimental memory-based response branch.
 - `database/Chroma_db/` - local Chroma persistence directory.
 
+## Architecture
+
+The app follows a simple routed pipeline:
+
+1. `chatbot.py` receives a user query from the CLI.
+2. `src/LlmModel.py` uses a Groq-based classifier to decide whether the query should be searched or answered directly.
+3. If the query needs live information, `src/searchEngine.py` sends it to DuckDuckGo.
+4. Otherwise, the query is passed to the model answer chain for a direct response.
+5. `src/Chroma.py` and `src/branches.py` provide the optional memory layer, storing prior exchanges in ChromaDB and retrieving similar context when needed.
+
 ## Requirements
 
 - Python 3.13 or compatible.
